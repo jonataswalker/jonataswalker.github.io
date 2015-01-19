@@ -120,8 +120,8 @@ var displayFeatureInfo = function(pixel) {
     if (feature) {
         var cod_uf = feature.get('codigo');
         var cod_cap = feature.get('cod_mun');
-        if(cod_uf) div_info.innerHTML = feature.get('name') + '<br>População: ' + est_uf.uf[cod_uf].num_pop;
-        else if(cod_cap) div_info.innerHTML = feature.get('name_mun') + '<br>População: ' + est_cap.c[cod_cap].p;
+        if(cod_uf) div_info.innerHTML = feature.get('name') + '<br>PopulaÃ§Ã£o: ' + est_uf.uf[cod_uf].num_pop;
+        else if(cod_cap) div_info.innerHTML = feature.get('name_mun') + '<br>PopulaÃ§Ã£o: ' + est_cap.c[cod_cap].p;
     } else div_info.innerHTML = 'desconhecido!!';
 
     if (feature !== highlight) {
@@ -232,7 +232,7 @@ map.on('singleclick', function(evt) {
     if(feature){
         var cod_uf = feature.get('codigouf');
         if(cod_uf){
-            document.id('uf-info').set('html', feature.get('nome')+' - '+feature.get('siglauf') + '<br>População: ' + statisticas_uf.uf[cod_uf].num_pop);
+            document.id('uf-info').set('html', feature.get('nome')+' - '+feature.get('siglauf') + '<br>PopulaÃ§Ã£o: ' + statisticas_uf.uf[cod_uf].num_pop);
         }
     }
 });******/
