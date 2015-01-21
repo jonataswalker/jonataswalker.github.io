@@ -122,8 +122,8 @@ var displayFeatureInfo = function(pixel) {
     if (feature) {
         var cod_uf = feature.get('codigo');
         var cod_cap = feature.get('cod_mun');
-        if(cod_uf) div_info.innerHTML = feature.get('name') + '<br>População: ' + est_uf.uf[cod_uf].np + '<br>Pop. Urb: ' + est_uf.uf[cod_uf].npu + '<br>Pop. Rural: ' + est_uf.uf[cod_uf].npr + '<br>Rend. Mensal: ' + est_uf.uf[cod_uf].rpc;
-        else if(cod_cap) div_info.innerHTML = feature.get('name_mun') + '<br>População: ' + est_cap.c[cod_cap].p + '<br>Pop. Urb: ' + est_cap.c[cod_cap].pu + '<br>Pop. Rural: ' + est_cap.c[cod_cap].pr + '<br>Rend. Mensal: ' + est_cap.c[cod_cap].rpcc;
+        if(cod_uf) div_info.innerHTML = feature.get('name') + '<br>PopulaÃ§Ã£o: ' + est_uf.uf[cod_uf].np + '<br>Pop. Urb: ' + est_uf.uf[cod_uf].npu + '<br>Pop. Rural: ' + est_uf.uf[cod_uf].npr + '<br>Rend. Mensal: ' + est_uf.uf[cod_uf].rpc;
+        else if(cod_cap) div_info.innerHTML = feature.get('name_mun') + '<br>PopulaÃ§Ã£o: ' + est_cap.c[cod_cap].p + '<br>Pop. Urb: ' + est_cap.c[cod_cap].pu + '<br>Pop. Rural: ' + est_cap.c[cod_cap].pr + '<br>Rend. Mensal: ' + est_cap.c[cod_cap].rpcc;
     } else div_info.innerHTML = 'desconhecido!!';
 
     if (feature !== highlight) {
