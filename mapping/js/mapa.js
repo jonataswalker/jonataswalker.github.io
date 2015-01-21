@@ -73,7 +73,9 @@ var map = new ol.Map({
     view : new ol.View({
         center: ol.proj.transform([-53.30, -17.80], 'EPSG:4326', 'EPSG:3857'),
         //center: ol.proj.transform([-47.85, -15.80], 'EPSG:4326', 'EPSG:3857'),
-        zoom : 4
+        zoom : 4,
+        minZoom: 3.5,
+        maxZoom: 4.5
     })
 });
 
@@ -120,8 +122,8 @@ var displayFeatureInfo = function(pixel) {
     if (feature) {
         var cod_uf = feature.get('codigo');
         var cod_cap = feature.get('cod_mun');
-        if(cod_uf) div_info.innerHTML = feature.get('name') + '<br>PopulaÃ§Ã£o: ' + est_uf.uf[cod_uf].num_pop;
-        else if(cod_cap) div_info.innerHTML = feature.get('name_mun') + '<br>PopulaÃ§Ã£o: ' + est_cap.c[cod_cap].p;
+        if(cod_uf) div_info.innerHTML = feature.get('name') + '<br>População: ' + est_uf.uf[cod_uf].np + '<br>Pop. Urb: ' + est_uf.uf[cod_uf].npu + '<br>Pop. Rural: ' + est_uf.uf[cod_uf].npr + '<br>Rend. Mensal: ' + est_uf.uf[cod_uf].rpc;
+        else if(cod_cap) div_info.innerHTML = feature.get('name_mun') + '<br>População: ' + est_cap.c[cod_cap].p + '<br>Pop. Urb: ' + est_cap.c[cod_cap].pu + '<br>Pop. Rural: ' + est_cap.c[cod_cap].pr + '<br>Rend. Mensal: ' + est_cap.c[cod_cap].rpcc;
     } else div_info.innerHTML = 'desconhecido!!';
 
     if (feature !== highlight) {
