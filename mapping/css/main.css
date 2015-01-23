@@ -44,6 +44,9 @@ body {
     position: relative;
 }
 .col-md-2 {width: 40%;}
+#row{
+    margin:5px 0;
+}
 .map {
     height: 600px;
     width: 100%;

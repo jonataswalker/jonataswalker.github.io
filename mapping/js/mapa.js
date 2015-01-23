@@ -34,27 +34,27 @@ var layerMQ = new ol.layer.Tile({source: new ol.source.MapQuest({layer: 'osm'})}
 var layer_principal = new ol.layer.Tile({ source : new ol.source.Stamen({ layer: 'watercolor' }), name : 'mapa'});
 
 var controls = [
-new ol.control.Attribution(),
-new ol.control.MousePosition({
-    undefinedHTML: 'outside',
-    projection: 'EPSG:4326',
-    coordinateFormat: function(coordinate) { return ol.coordinate.format(coordinate, '{x}, {y}', 4); }
-}),
-new ol.control.OverviewMap({ collapsed: false }),
-new ol.control.Rotate({ autoHide: false }),
-new ol.control.ScaleLine(),
-new ol.control.Zoom(),
-new ol.control.ZoomSlider(),
-new ol.control.ZoomToExtent(),
-new ol.control.FullScreen()
+    new ol.control.Attribution(),
+    new ol.control.MousePosition({
+        undefinedHTML: 'outside',
+        projection: 'EPSG:4326',
+        coordinateFormat: function(coordinate) { return ol.coordinate.format(coordinate, '{x}, {y}', 4); }
+    }),
+    new ol.control.OverviewMap({ collapsed: false }),
+    new ol.control.Rotate({ autoHide: false }),
+    new ol.control.ScaleLine(),
+    new ol.control.Zoom(),
+    new ol.control.ZoomSlider(),
+    new ol.control.ZoomToExtent(),
+    new ol.control.FullScreen()
 ];
 var map = new ol.Map({
     target : 'map',
     renderer : 'canvas',
     layers : [
-    layer_principal,
-    brasil_uf,
-    brasil_capitais
+        layer_principal,
+        brasil_uf,
+        brasil_capitais
     ],
     view : new ol.View({
         center: ol.proj.transform([-53.30, -17.80], 'EPSG:4326', 'EPSG:3857'),
@@ -72,7 +72,7 @@ var highlightStyleCache = {};
 var featureOverlay = new ol.FeatureOverlay({
     map: map,
     style: function(feature, resolution) {
-        var text = resolution < 5000 ? feature.get('name') : '';
+        var text = '';
         if (!highlightStyleCache[text]) {
             highlightStyleCache[text] = [new ol.style.Style({
                 fill: new ol.style.Fill({color: 'rgba(143, 89, 2, 0.3)'}),
@@ -195,15 +195,15 @@ window.addEvent('domready', function() {
     })());
     var tileSource2 = layerMQ.getSource();
     tileSource2.setTileLoadFunction((function() {
-        var numLoadingTiles = 0;
+        var numLoadingTiles2 = 0;
         var tileLoadFn = tileSource2.getTileLoadFunction();
         return function(tile, src) {
-            if (numLoadingTiles === 0) { div_info.innerHTML = 'carregando...'; }
-            ++numLoadingTiles;
+            if (numLoadingTiles2 === 0) { div_info.innerHTML = 'carregando...'; }
+            ++numLoadingTiles2;
             var image = tile.getImage();
             image.onload = image.onerror = function() {
-                --numLoadingTiles;
-                if (numLoadingTiles === 0 && layer_raised === false) {
+                --numLoadingTiles2;
+                if (numLoadingTiles2 === 0 && layer_raised === false) {
                     div_info.innerHTML = 'clique nos Estados ou Capitais';
                     raiseLayer(brasil_capitais);
                     raiseLayer(brasil_uf);
