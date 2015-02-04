@@ -1,53 +1,126 @@
-// from https://github.com/DmitryBaranovskiy/raphael
-function bounce(t) {
-  var s = 7.5625, p = 2.75, l;
-  if (t < (1 / p)) {
-    l = s * t * t;
-  } else {
-    if (t < (2 / p)) {
-      t -= (1.5 / p);
-      l = s * t * t + 0.75;
-    } else {
-      if (t < (2.5 / p)) {
-        t -= (2.25 / p);
-        l = s * t * t + 0.9375;
-      } else {
-        t -= (2.625 / p);
-        l = s * t * t + 0.984375;
-      }
-    }
-  }
-  return l;
-}
-function mapFly(lon, lat){
-    var pan = ol.animation.pan({
-        duration: 2000,
-        source: (view.getCenter())
-    });
+Number.prototype.toDeg = function() { return this * 180 / Math.PI; }
+Number.prototype.toRad = function() { return this * Math.PI / 180; }
+function toRad(x) {return x * Math.PI / 180;}
 
-    var duration = 2000;
+// Distance in kilometers between two points using the Haversine algo.
+function haversine(lat1, lon1, lat2, lon2) {
+    var R = 6371;
+    var dLat = (lat2 - lat1).toRad();
+    var dLong = (lon2 - lon1).toRad();
+
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * Math.sin(dLong / 2) * Math.sin(dLong / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+
+    return Math.round(d);
+}
+//The Spherical Law of Cosines
+//Original source: "http://www.movable-type.co.uk/scripts/latlong.html"
+function SphericalCosinus(lat1, lon1, lat2, lon2) {
+    var R = 6371; // km
+    var dLon = (lon2-lon1).toRad(); 
+    var lat1 = lat1.toRad();
+    var lat2 = lat2.toRad();
+    var d = Math.acos(Math.sin(lat1)*Math.sin(lat2) + 
+                                            Math.cos(lat1)*Math.cos(lat2) *
+                                            Math.cos(dLon)) * R;
+
+    return Math.round(d);
+}
+function addFeature(arrayXY, vector_source) {
+    var i, lat, lon, geom, feature, features = [];
+
+    geom = new ol.geom.LineString(
+        ol.proj.transform(arrayXY, 'EPSG:4326', 'EPSG:3857')
+    );
+
+    feature = new ol.Feature(geom);
+
+    vectorSource.addFeature(feature);
+    return feature;
+}
+// Add 10 random circle features
+function addFeatures() {
+    var i, lat, lon, geom, feature, features = [];
+    for(i=0; i< 10; i++) {
+        lat = Math.random() * 174 - 87;
+        lon = Math.random() * 360 - 180;
+
+        geom = new ol.geom.Circle(
+            ol.proj.transform([lon, lat], 'EPSG:4326', 'EPSG:3857'), 
+            100000
+        );
+
+        feature = new ol.Feature(geom);
+        features.push(feature);
+    }    
+    vectorSource.addFeatures(features);
+    return features;
+}
+
+// Remove 10 features
+function removeFeatures() {
+    var features = vectorSource.getFeatures();
+    for(var i=0; i< features.length && i<10; i++) {
+        vectorSource.removeFeature(features[i]);
+    }
+}
+function mapFly(destino){
+    var startcenter = map.getView().getCenter();
+    var resolution = 152.8740565703525;
     var start = +new Date();
-    var pan2 = ol.animation.pan({
+    
+    var center4326 = ol.proj.transform(startcenter, 'EPSG:3857', 'EPSG:4326');
+    var destino4326 = ol.proj.transform(destino, 'EPSG:3857', 'EPSG:4326');
+    var distance = SphericalCosinus(center4326[1], center4326[0], destino4326[1], destino4326[0]);
+    var duration = distance.round() * 1.1;
+
+    var pan = ol.animation.pan({
         duration: duration,
-        source: (view.getCenter()),
+        source: startcenter,
         start: start
     });
     var bounce = ol.animation.bounce({
         duration: duration,
-        resolution: 4 * view.getResolution(),
+        resolution: 9783.9396,
         start: start
     });
     
-    map.beforeRender(pan2, bounce);
-    var center = [parseInt(lon), parseInt(lat)];
-    view.setCenter(ol.proj.transform(center, 'EPSG:4326', 'EPSG:3857'));
+    //map.removeOverlay(popup);
+    map.beforeRender(pan, bounce);
+    map.getView().setCenter(destino);
+    map.getView().setResolution(resolution);
+    
+    
+    
 }
+
 function createOverlay() {
     return new ol.Overlay({
         element: container,
         positioning: 'top-right'
     });
 }
+function number_format( number, decimals, dec_point, thousands_sep ) {
+    var n = number, c = isNaN(decimals = Math.abs(decimals)) ? 2 : decimals;
+    var d = dec_point == undefined ? "." : dec_point;
+    var t = thousands_sep == undefined ? "," : thousands_sep, s = n < 0 ? "-" : "";
+    var i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
+
+    return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+}
+function formataMilhar(valor){
+    return number_format(valor, 0, '', '.');
+}
+var formatLength = function(length) {
+  var output;
+  if (length > 100) {
+    output = (Math.round(length / 1000 * 100) / 100) + ' ' + 'km';
+  } else {
+    output = (Math.round(length * 100) / 100) + ' ' + 'm';
+  }
+  return output;
+};
 function setCoordinateAndShow(coordinate) {
     // Set position
     overlay.setPosition(coordinate);
@@ -56,7 +129,26 @@ function setCoordinateAndShow(coordinate) {
     // Show overlay
     container.setStyle('display', 'block'); 
 }
-
+function toggleFullScreen() {
+    if ((document.fullScreenElement && document.fullScreenElement !== null) ||    
+    (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+        if (document.documentElement.requestFullScreen) {  
+            document.documentElement.requestFullScreen();  
+        } else if (document.documentElement.mozRequestFullScreen) {  
+            document.documentElement.mozRequestFullScreen();  
+        } else if (document.documentElement.webkitRequestFullScreen) {  
+            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);  
+        }  
+    } else {  
+        if (document.cancelFullScreen) {  
+            document.cancelFullScreen();  
+        } else if (document.mozCancelFullScreen) {  
+            document.mozCancelFullScreen();  
+        } else if (document.webkitCancelFullScreen) {  
+            document.webkitCancelFullScreen();  
+        }  
+    }  
+}
 
 function indexOf(e,t){var n=e.getLength();for(var r=0;r<n;r++){if(t===e.item(r)){return r}}return-1}function findByName(e){var t=map.getLayers();var n=t.getLength();for(var r=0;r<n;r++){if(e===t.item(r).get("name")){return t.item(r)}}return null}function raiseLayer(e){var t=map.getLayers();var n=indexOf(t,e);if(n<t.getLength()-1){var r=t.item(n+1);t.setAt(n+1,e);t.setAt(n,r)}}function lowerLayer(e){var t=map.getLayers();var n=indexOf(t,e);if(n>0){var r=t.item(n-1);t.setAt(n-1,e);t.setAt(n,r)}}
 

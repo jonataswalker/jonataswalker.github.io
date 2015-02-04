@@ -24,42 +24,68 @@ table {
     border-spacing: 0;
 }
 body {
-/*     font-family: "freight-text-pro",Georgia,Cambria,"Times New Roman",Times,serif; */
-    font-family: 'Trebuchet MS',Tahoma,Verdana,Arial,sans-serif;
+/*  font-family: "freight-text-pro",Georgia,Cambria,"Times New Roman",Times,serif; */
+     font-family: 'Trebuchet MS',Tahoma,Verdana,Arial,sans-serif;
+/*     font-family: "Quattrocento Sans","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif; */
     font-size: 10pt;
     line-height: 1.5;
     color: rgba(0, 0, 0, 0.8);
     letter-spacing: 0.01rem;
     font-weight: 400;
 }
-h2, .home-features h3 {
+h1, h2, h3, h4, h5{
+    font-family: "Raleway",Helvetica,sans-serif;
+}
+h3 {
+    font-size: 15px;
+}
+h2 {
     font-size: 20px;
     letter-spacing: -0.04em;
     line-height: 1.1;
 }
-h1, h2, h3, h4, h5, #masthead-title #masthead-title-text, .post-list-topics h2, .home-features h2 {
-    /**font-family: "jaf-bernino-sans","Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif;**/
-    font-weight: bold;
+#navegacao {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 1.5em;
+    height: 30px;
+    left: 0;
+    margin: 0;
+    padding: 10px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    z-index: 10;
 }
-.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
-    float: left;
-    min-height: 1px;
-    padding-left: 15px;
-    padding-right: 15px;
-    position: relative;
+#navegacao a{
+    font-size: 8pt;
+    margin-left: 15px;
+    text-decoration:none;
+    color: white;
 }
-.col-md-2 {width: 40%;}
-#row{
-    margin:5px 0;
+.ol-control {
+    z-index:20;
 }
-#row #result-query{
-    font-size: 8pt !important;
-    color: #D3D7CF;
-    padding: 3px;
-}
-.map {
-    height: 600px;
+#map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
     width: 100%;
+}
+button.link {
+    display:inline-block;
+    position:relative;
+    background-color: transparent;
+    cursor: pointer;
+    border:0;
+    padding:0;
+    color:#00f;
+    text-decoration:underline;
+}
+.info-link{
+    text-decoration: underline;
+     cursor: pointer;
 }
 .btn {
     -moz-user-select: none;
@@ -96,6 +122,7 @@ h1, h2, h3, h4, h5, #masthead-title #masthead-title-text, .post-list-topics h2, 
 .btn-xs {
     padding: 4px;
 }
+.font10 { font-size: 10pt; }
 .bold { font-weight: bold; }
 .center { text-align: center; }
 .right { text-align: right; padding-right:2px; }
@@ -113,18 +140,33 @@ h1, h2, h3, h4, h5, #masthead-title #masthead-title-text, .post-list-topics h2, 
     border:1px solid #000;
     overflow-y: auto;
 }
+#row{
+    position: relative;
+}
+#row #result-query{
+    font-size: 8pt !important;
+    color: #D3D7CF;
+    padding: 3px;
+}
 #uf-info{
     font-size: 8pt;
     position:relative;
-    width:95%;
+    width:98%;
     height:150px;
-    margin:90px 2px 0 10px;
+    margin:10px 0;
     color:#fff;
     background-color:#222;
 }
 #uf-info table { border-collapse: collapse; width:100%; }
 #uf-info th, #uf-info td { padding: 3px; }
 #uf-info .tr_odd{ background-color: #BABDB6; color: #000;}
+.row1 {height:60px}
+.col-md {
+    float: left;
+    position: relative;
+    padding: 5px 0;
+}
+.col-md-2 {width: 40%;}
 textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"] {
     border: 1px solid #CCC;
     padding: 3px;
