@@ -89,6 +89,10 @@ var displayFeatureInfo = function(pixel) {
     }
 };
 window.addEvent('domready', function() {
+    document.id('fullscreen').addEvent('click', function(event){
+        event.stopPropagation();
+        toggleFullScreen();
+    });
     $('removeOSM').addEvent('click', function() {
         var layer_remov;
         //11 - menor codigo uf e 53 maior

@@ -140,6 +140,10 @@ map.on('postrender', function(evt) {
 });
 
 window.addEvent('domready', function() {
+    document.id('fullscreen').addEvent('click', function(event){
+        event.stopPropagation();
+        toggleFullScreen();
+    });
     var layer_to_add, index_layer_to_add;
     $('addOSM').addEvent('click', function() {
         index_layer_to_add = indexOf(map.getLayers(), layerOSM);
